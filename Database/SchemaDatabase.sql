@@ -27,6 +27,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Oppdrag2`.`problem` (
   `id_problem` INT NOT NULL AUTO_INCREMENT,
+  `problem_nummer` INT NOT NULL,
   `problem_title` VARCHAR(255) NOT NULL,
   `problem_text` LONGTEXT NOT NULL,
   `problem_status` INT NOT NULL,
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `Oppdrag2`.`problem` (
   `forfatter_id` INT NULL,
   PRIMARY KEY (`id_problem`),
   INDEX `fk_problem_bruker1_idx` (`forfatter_id` ASC),
+  UNIQUE INDEX `problemcol_UNIQUE` (`problem_nummer` ASC),
   CONSTRAINT `fk_problem_bruker1`
     FOREIGN KEY (`forfatter_id`)
     REFERENCES `Oppdrag2`.`bruker` (`id_bruker`)
@@ -70,8 +72,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 
-INSERT INTO 'bruker' (`brukernavn`, `passord`, `admin`) VALUES (`test1`, `test2`, 0);
-INSERT INTO 'bruker' (`brukernavn`, `passord`, `admin`) VALUES (`admin`, `admin123`, 1);
+INSERT INTO bruker (brukernavn, passord, admin) VALUES (`test1`, `test2`, 0);
+INSERT INTO bruker (brukernavn, passord, admin) VALUES (`testansatt`, `ansatt`, 1);
+INSERT INTO bruker (brukernavn, passord, admin) VALUES (`testadmin`, `admin123`, 2);
 
 -- -----------------------------------------------------
 -- Database brukere

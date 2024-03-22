@@ -1,0 +1,5 @@
+adminUser IDENTIFIED BY 'admin123'
+ALL PRIVILEGES ON *.*
+
+kundeUser IDENTIFIED BY 'kunde123';
+SELECT, INSERT ON Oppdrag2.*
