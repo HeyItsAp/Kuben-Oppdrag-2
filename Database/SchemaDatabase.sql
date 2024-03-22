@@ -17,26 +17,51 @@ CREATE TABLE IF NOT EXISTS `Oppdrag2`.`bruker` (
   `id_bruker` INT NOT NULL AUTO_INCREMENT,
   `brukernavn` VARCHAR(255) NOT NULL,
   `passord` LONGTEXT NOT NULL,
-  `admin` INT NOT NULL DEFAULT 1,
+  `admin` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_bruker`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Oppdrag2`.`anmeldelse`
+-- Table `Oppdrag2`.`problem`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Oppdrag2`.`anmeldelse` (
-  `id_anmeldelse` INT NOT NULL AUTO_INCREMENT,
-  `anmeldelse_title` VARCHAR(255) NOT NULL,
-  `anmeldelse_text` LONGTEXT NOT NULL,
-  `anmeldelse_status` INT NOT NULL,
-  `bruker_id_bruker` INT NULL,
-  PRIMARY KEY (`id_anmeldelse`),
-  INDEX `fk_anmeldelse_bruker_idx` (`bruker_id_bruker` ASC),
-  CONSTRAINT `fk_anmeldelse_bruker`
-    FOREIGN KEY (`bruker_id_bruker`)
+CREATE TABLE IF NOT EXISTS `Oppdrag2`.`problem` (
+  `id_problem` INT NOT NULL AUTO_INCREMENT,
+  `problem_title` VARCHAR(255) NOT NULL,
+  `problem_text` LONGTEXT NOT NULL,
+  `problem_status` INT NOT NULL,
+  `problem_hashtags` LONGTEXT NOT NULL,
+  `forfatter_id` INT NULL,
+  PRIMARY KEY (`id_problem`),
+  INDEX `fk_problem_bruker1_idx` (`forfatter_id` ASC),
+  CONSTRAINT `fk_problem_bruker1`
+    FOREIGN KEY (`forfatter_id`)
     REFERENCES `Oppdrag2`.`bruker` (`id_bruker`)
     ON DELETE SET NULL
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Oppdrag2`.`fiks`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Oppdrag2`.`fiks` (
+  `id_fiks` INT NOT NULL AUTO_INCREMENT,
+  `fiks_text` LONGTEXT NOT NULL,
+  `forfatter_fiks_id` INT NULL,
+  `problem_fiks_id` INT NOT NULL,
+  PRIMARY KEY (`id_fiks`),
+  INDEX `fk_fiks_bruker1_idx` (`forfatter_fiks_id` ASC),
+  INDEX `fk_fiks_problem1_idx` (`problem_fiks_id` ASC),
+  CONSTRAINT `fk_fiks_bruker1`
+    FOREIGN KEY (`forfatter_fiks_id`)
+    REFERENCES `Oppdrag2`.`bruker` (`id_bruker`)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_fiks_problem1`
+    FOREIGN KEY (`problem_fiks_id`)
+    REFERENCES `Oppdrag2`.`problem` (`id_problem`)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -53,10 +78,10 @@ INSERT INTO 'bruker' (`brukernavn`, `passord`, `admin`) VALUES (`admin`, `admin1
 -- -----------------------------------------------------
 
 CREATE USER adminUser@localhost IDENTIFIED BY 'admin123';
-GRANT ALL PRIVILEGES ON *.* TO 'remoteuser'@localhost IDENTIFIED BY 'admin123';
+GRANT ALL PRIVILEGES ON *.* TO 'adminUser'@localhost IDENTIFIED BY 'admin123';
 
 CREATE USER kundeUser@localhost IDENTIFIED BY 'kunde123';
-GRANT SELECT, INSERT ON Oppdrag2.* TO 'remoteuser'@localhost IDENTIFIED BY 'kunde123';
+GRANT SELECT, INSERT ON Oppdrag2.* TO 'kundeUser'@localhost IDENTIFIED BY 'kunde123';
 
 
 
