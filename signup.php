@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,11 +20,11 @@
                             <h2>Create your user</h2>
                             <div class="mb-3">
                                 <label for="display_name" class="form-label"> Username </label>
-                                <input class="form-control" type="text" name="username" placeholder='"cookiehater"'>
+                                <input class="form-control" type="text" name="username" placeholder='fjellBruker'>
                             </div>
                             <div class="mb-3">
                                 <label for="display_name" class="form-label"> Password </label>
-                                <input class="form-control" type="text" name="username" placeholder='"ihatecookies"'>
+                                <input class="form-control" type="text" name="passord" placeholder='passord123'>
                             </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">

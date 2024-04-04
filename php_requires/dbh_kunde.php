@@ -8,3 +8,4 @@ try {
 } catch (PDOExecption $e){
     echo "Connection Error: " . $e->getMessage(); 
 }
+// SELECT and INSERT privliges

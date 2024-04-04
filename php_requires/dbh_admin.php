@@ -8,3 +8,4 @@ try {
 } catch (PDOExecption $e){
     echo "Connection Error: " . $e->getMessage(); 
 }
+// ALL PRIVIGLES GRANTED
