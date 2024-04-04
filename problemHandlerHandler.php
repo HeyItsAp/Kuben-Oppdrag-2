@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt -> bindParam(':id_problem', $_POST['problem_id']);
         $stmt->execute();
         $problemET = $stmt->fetch(PDO::FETCH_ASSOC);
+        // fancyDump($problemET);
     
-        fancyDump($problemET);
     } if (isset($_POST['submitFiks'])){
         $fiks_text = validate($_POST['fiks_text']);
         $problem_id = validate($_POST['problem_id']);
@@ -74,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <?php
     if (isset($_POST['seeFiks'])){
-        echo "se fiks";
         print '<section class="container my-5">';
             print '<div class="row d-flex justify-content-center">';
                 print '<div class="col-9">';
@@ -96,7 +95,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $forfatter = "en tidligere bruker";
             
                             }  
-                            print '<p class="fs-6">' . $problemET['problem_text'] . ' || skrevet av ' . $forfatter . '</p>';
+
+                            try {
+                                $query = "SELECT kategori FROM kategori WHERE id_kategori = :id_kategori";
+                                $stmt = $pdo->prepare($query);
+                                $stmt -> bindParam(':id_kategori', $problemET['kategori_id_kategori']);
+                                $stmt->execute();
+                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                            } catch (PDOExecption $e) {
+                                die("Failed : " . $e->getMessage()); 
+                            }
+                            if ($result){
+                                $kategori = $result['kategori'];
+                            } else {
+                                $kategori = "en tidligere kategori";
+            
+                            }
+
+                            
+                            print '<p class="fs-6">' . $problemET['problem_text'] . ' || skrevet av ' . $forfatter . ' || kategori: ' . $kategori . '</p>';
                             print '<p class="fst-italic mt-3 mb-0">' . $problemET['fiks_text'] . '</p>'; 
                             
                         print '</div>';
@@ -111,13 +128,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     } else if (isset($_POST['fiksProblem'])){
-        echo "fiks problem";
         print '<section class="container mt-5">';
             print '<div class="row d-flex justify-content-center">';
                 print '<div class="col-9">';
                     print '<div class="card shadow">';
                         print '<div class="card-body">';
                             print '<h2>Send fiks</h2>';
+                            print '<div class="card">';
+                                print '<div class="card-body fst-italic">' . $problemET['problem_title'] . ': ' . $problemET['problem_text'] . '</div>';
+                            print' </div>';
                             print '<div class="mb-3">';
                                 print '<form method="post" action="">';
                                 print '<input type="hidden" name="problem_id" value="' . $problemET['id_problem'] . '" />';

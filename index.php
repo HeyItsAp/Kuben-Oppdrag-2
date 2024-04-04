@@ -20,26 +20,25 @@ session_start();
         <div class="row d-flex justify-content-center">
             <div class="col-lg-7 col-9">
                 <div class="card shadow-lg">
-                    <img src="FjellBilde.jpg" class="card-img-top" alt="Bilde av fjell">
-                    <div class="card-body">
-                        <h2 class="card-title"> Fjell Bedriftsløsninger </h2>
-                        <h5>Logg inn: </h5>
-                        <form method="POST" action="php_requires/login_h.php">
-                            <div class="form-floating mb-3">
-                                <input type="text" name="brukernavn" class="form-control" id="floatingInput" placeholder="FjellBruker">
-                                <label for="floatingInput">Brukernavn</label>
-                            </div>
-                            <div class="form-floating">
-                                <input type="password" name="passord" class="form-control" id="floatingPassword" placeholder="Password">
-                                <label for="floatingPassword">Password</label>
-                            </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between py-2">
-                        <a href="signup.php" class="btn btn-link ps-0"> Har du ikke bruker? Klikk her</a>
-                        <input type="submit" name="submitLogin" class="btn btn-primary" value="Logg inn">
-                        </form>
-
-                    </div>
+                    <form method="POST" action="php_requires/login_h.php">
+                        <img src="FjellBilde.jpg" class="card-img-top" alt="Bilde av fjell">
+                        <div class="card-body">
+                            <h2 class="card-title"> Fjell Bedriftsløsninger </h2>
+                            <h5>Logg inn: </h5>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="brukernavn" class="form-control" id="floatingInput" placeholder="FjellBruker">
+                                    <label for="floatingInput">Brukernavn</label>
+                                </div>
+                                <div class="form-floating">
+                                    <input type="password" name="passord" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <label for="floatingPassword">Password</label>
+                                </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between py-2">
+                            <a href="signup.php" class="btn btn-link ps-0"> Har du ikke bruker? Klikk her</a>
+                            <input type="submit" name="submitLogin" class="btn btn-primary" value="Logg inn">
+                        </div>
+                    </form>
                 </div>
             </div>
     </div>

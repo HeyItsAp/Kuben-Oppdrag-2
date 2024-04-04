@@ -86,62 +86,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             foreach ($problemER as $ENproblem) {
                 print '<div class="card m-2">';
-                print '<div class="card-header">';
-                print '<h3>' . $ENproblem['problem_title'] . "</h3>";
-                print '</div>';
-                print '<div class="card-body">';
+                    print '<div class="card-header">';
+                        print '<h3>' . $ENproblem['problem_title'] . "</h3>";
+                    print '</div>';
+                    print '<div class="card-body">';
 
-                try {
-                    $query = "SELECT * FROM bruker WHERE id_bruker = :id_bruker";
-                    $stmt = $pdo->prepare($query);
-                    $stmt -> bindParam(':id_bruker', $ENproblem['forfatter_id']);
-                    $stmt->execute();
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                } catch (PDOExecption $e) {
-                    die("Failed : " . $e->getMessage()); 
-                }
+                    try {
+                        $query = "SELECT * FROM bruker WHERE id_bruker = :id_bruker";
+                        $stmt = $pdo->prepare($query);
+                        $stmt -> bindParam(':id_bruker', $ENproblem['forfatter_id']);
+                        $stmt->execute();
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    } catch (PDOExecption $e) {
+                        die("Failed : " . $e->getMessage()); 
+                    }
+                    if ($result){
+                        $forfatter = $result['brukernavn'];
+                    } else {
+                        $forfatter = "en tidligere bruker";
+
+                    }
+                    
+                    try {
+                        $query = "SELECT kategori FROM kategori WHERE id_kategori = :id_kategori";
+                        $stmt = $pdo->prepare($query);
+                        $stmt -> bindParam(':id_kategori', $ENproblem['kategori_id_kategori']);
+                        $stmt->execute();
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    } catch (PDOExecption $e) {
+                        die("Failed : " . $e->getMessage()); 
+                    }
+                    if ($result){
+                        $kategori = $result['kategori'];
+                    } else {
+                        $kategori = "en tidligere kategori";
+                    }
+
         
+                    print '<p class="fst-italic"> Skrevet av, ' . $forfatter . '</p>'; 
+                    print '<p class="fst-italic"> Kategori: ' . $kategori . '</p>'; 
 
-                if ($result){
-                    $forfatter = $result['brukernavn'];
-                } else {
-                    $forfatter = "en tidligere bruker";
-
-                }
-
-      
-                print '<p class="fst-italic"> Skrevet av, ' . $forfatter . '</p>'; 
                 
-                
-                if ($ENproblem['problem_status'] == 0) {
-                    print '<div class="mb-2 text-danger d-flex align-items-center"><i class="bi bi-x fs-4"></i><h4> Sendt </h4></div>';
-                } else {
-                    print '<div class="mb-2 text-succses d-flex align-items-center"><i class="bi bi-check-lg fs-4 me-1"></i><h4> Fiks er tilgjengelig </h4></div>';
-
-                }
-                print '<p>' . $ENproblem['problem_text'] . '</p>';
+                    if ($ENproblem['problem_status'] == 0) {
+                        print '<div class="mb-2 text-danger d-flex align-items-center"><i class="bi bi-x fs-4"></i><h4> Sendt </h4></div>';
+                    } else {
+                        print '<div class="mb-2 text-succses d-flex align-items-center"><i class="bi bi-check-lg fs-4 me-1"></i><h4> Fiks er tilgjengelig </h4></div>';
+                    }
+                    print '<p>' . $ENproblem['problem_text'] . '</p>';
 
 
                 print '</div>';
                 print '<div class="card-footer">';
-                print '<form method="post" action="problemHandlerHandler.php">';
-                print '<input type="hidden" name="problem_id" value="' . $ENproblem['id_problem'] . '" />';
-                if ($ENproblem['problem_status'] == 1) {
-                    print '<input type="submit" name="seeFiks" class="btn btn-primary m-1" value="See Fks her" />';
-                }
-                if ($_SESSION['clearance'] == 1) {
-                    print '<input type="submit" name="fiksProblem" class="btn btn-success m-1" value="Oppdater problem" />';
-                }
-                if ($_SESSION['clearance'] == 2) {
-                    print '<input type="submit" name="fiksProblem" class="btn btn-success m-1" value="Oppdater her" />';
-                    print '<input type="submit" name="slettProblem" class="btn btn-danger m-1" value="Slett" />';
-                }
-                print '</form>';
+                    print '<form method="post" action="problemHandlerHandler.php">';
+                    print '<input type="hidden" name="problem_id" value="' . $ENproblem['id_problem'] . '" />';
+                    if ($ENproblem['problem_status'] == 1) {
+                        print '<input type="submit" name="seeFiks" class="btn btn-primary m-1" value="See Fks her" />';
+                    }
+                    if ($_SESSION['clearance'] == 1) {
+                        print '<input type="submit" name="fiksProblem" class="btn btn-success m-1" value="Oppdater problem" />';
+                    }
+                    if ($_SESSION['clearance'] == 2) {
+                        print '<input type="submit" name="fiksProblem" class="btn btn-success m-1" value="Oppdater her" />';
+                        print '<input type="submit" name="slettProblem" class="btn btn-danger m-1" value="Slett" />';
+                    }
+                    print '</form>';
                 print '</div>';
-                print '</div>';
-            }
+            print '</div>';
         }
-
+    }
         ?>
     </section>
 

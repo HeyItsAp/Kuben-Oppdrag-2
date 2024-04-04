@@ -11,7 +11,7 @@ function validate($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-require_once "php_requires/dbh_admin.php"; 
+require_once "php_requires/dbh_admin.php";
 
 if (!isset($_SESSION["login"]) && $_SESSION["clearance"] != 2) {
     header("refresh:0; url=login.php");
@@ -27,9 +27,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo -> prepare($query);
             $stmt -> bindParam(':id_bruker', $id_bruker);
             $stmt -> execute();
-            echo '<script> alert("Deleting WORKED HOHOWO ");</script>';
-        } catch (PDOExecption $e){                    
-            echo "Connection Error: " . $e->getMessage(); 
+
+
+            if ($id_bruker == $_SESSION['id']){
+
+                session_unset();
+                session_destroy();
+                
+                header( "refresh:0; url=../index.php" );
+                echo '<script> alert("You deleted yourself :D ");</script>';
+            }
+
+
+        } catch (PDOExecption $e){              
+            echo "Connection Error: " . $e->getMessage();
         }
     } else if (isset($_POST['oppdater_clearance'])){
         try {
@@ -52,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             echo '<script> alert("Submiting WORKED DWHADHAHWD");</script>';
             } catch (PDOExecption $e){
-                echo "Connection Error: " . $e->getMessage(); 
+                echo "Connection Error: " . $e->getMessage();
             }
             
         }
@@ -82,14 +93,13 @@ require_once "php_requires/dbh_admin.php";
                 if (count($brukERE) == 0){
                     $Nofound = true;
                 }
-                
         ?>
         <div class="container my-5">
             <h2 class="text-center display-4 m-2"> Admin panel </h2>
             <p class="text-center m-2"> Du kan bare endre admin rettigheter til andre </p>
             <a href="main.php" class="btn btn-link text-center m-2 text-decoration-none w-100">Hovedmenyen <i class="bi bi-arrow-right"></i></a>
 
-            <?php 
+            <?php
                 if ($Nofound){
                     echo '<h3 class="text-center"> Ingen personer </h2>';
                 }
@@ -116,33 +126,29 @@ require_once "php_requires/dbh_admin.php";
                             $admin = 'text-danger';
 
                             foreach ($brukERE as $key => $row){
-                                print '<tr>';
-                                    print '<form method="post">';
-                                    print '<th scope="row">' . $row['id_bruker'] .'</th>';
-                                    print '<th scope="row">' . $row['brukernavn'] .'</th>';
-                                    print '<td><select name="new_clearance" class="form-select">';
-                                        if ($row['clearance'] == 0){
-                                            print '<option value="0" class="text-primary" selected> Forbruker </option>';
-                                            print '<option value="1" class="text-success"> Ansatt </option>';
-                                            print '<option value="2" class="text-danger"> Admin </option>';
-                                        } else if ($row['clearance'] == 1){
-                                            print '<option value="0" class="text-primary"> Forbruker </option>';
-                                            print '<option value="1" class="text-success" selected > Ansatt </option>';
-                                            print '<option value="2" class="text-danger"> Admin </option>';
-                                        } else if ($row['clearance'] == 2){
-                                            print '<option value="0" class="text-primary"> Forbruker </option>';
-                                            print '<option value="1" class="text-success"> Ansatt </option>';
-                                            print '<option value="2" class="text-danger" selected> Admin </option>';
-                                        }
-             
-                                    print '</td>';
-                                    print '<td>';
-                                        print '<input type="hidden" name="id_bruker" value="'. $row['id_bruker'] . '">';
-                                        print '<button type="submit" name="delete_bruker" class="btn btn-danger mx-1"> Delete </button>';
-                                        print '<button type="submit" name="oppdater_clearance" class="btn btn-success mx-1"> Oppdaterer clearance </button>';
-                                    print '</td>';
-                                    print '</form>';
-                                print '</tr>';
+                                $id_bruker = $row['id_bruker'];
+                                $brukernavn = $row['brukernavn'];
+                                $clearance = $row['clearance'];
+                            ?>
+                                <tr>
+                                    <th scope="row"><?php echo $id_bruker ?></th>
+                                    <th scope="row"><?php echo $brukernavn ?></th>
+                                    <td>
+                                        <form method="post">
+                                            <select name="new_clearance" class="form-select">
+                                                <option value="0" class="text-primary" <?php echo $clearance === "0" ? "selected" : "" ?>> Forbruker </option>
+                                                <option value="1" class="text-success" <?php echo $clearance === "1" ? "selected" : "" ?>> Ansatt </option>
+                                                <option value="2" class="text-danger" <?php echo $clearance === "2" ? "selected" : "" ?>> Admin </option>
+                                            </select>
+                                    </td>
+                                    <td>
+                                            <?php print '<input type="hidden" name="id_bruker" value="'. $id_bruker. '">'; ?>
+                                            <button type="submit" name="delete_bruker" class="btn btn-danger mx-1"> Delete </button>
+                                            <button type="submit" name="oppdater_clearance" class="btn btn-success mx-1"> Oppdaterer clearance </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php
                             }
                         }
                     ?>

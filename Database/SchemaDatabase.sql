@@ -71,9 +71,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 
-INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('test1', 'test2', 0);
-INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('testansatt', 'ansatt', 1);
-INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('testadmin', 'admin123', 2);
+INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('fjellBruker', 'Bruker', 0);
+INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('fjellAnsatt', 'Ansatt', 1);
+INSERT INTO bruker (brukernavn, passord, clearance) VALUES ('fjellAdmin', 'Admin', 2);
+
+INSERT INTO kategori (kategori) VALUES ('Drift');
+INSERT INTO kategori (kategori) VALUES ('Utvikling');
+
+
 
 -- -----------------------------------------------------
 -- Database brukere
