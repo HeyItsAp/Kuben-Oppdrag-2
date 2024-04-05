@@ -53,5 +53,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Failed : " . $e->getMessage()); 
     }
 } else {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
 }

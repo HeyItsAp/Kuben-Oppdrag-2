@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo $passord . '<br>';
 
     if(empty($username) || empty($passord)) {
-        header( "refresh:0; url=../registration.php" );
+        header( "refresh:0; url=../index.php" );
         echo '<script> alert("Something is missing");</script>';
         die("");
     }
