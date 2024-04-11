@@ -136,9 +136,9 @@ require_once "php_requires/dbh_admin.php";
                                     <td>
                                         <form method="post">
                                             <select name="new_clearance" class="form-select">
-                                                <option value="0" class="text-primary" <?php echo $clearance === "0" ? "selected" : "" ?>> Forbruker </option>
-                                                <option value="1" class="text-success" <?php echo $clearance === "1" ? "selected" : "" ?>> Ansatt </option>
-                                                <option value="2" class="text-danger" <?php echo $clearance === "2" ? "selected" : "" ?>> Admin </option>
+                                                <option value="0" class="text-primary" <?php echo $clearance == "0" ? "selected" : "" ?>> Forbruker </option>
+                                                <option value="1" class="text-success" <?php echo $clearance == "1" ? "selected" : "" ?>> Ansatt </option>
+                                                <option value="2" class="text-danger" <?php echo $clearance == "2" ? "selected" : "" ?>> Admin </option>
                                             </select>
                                     </td>
                                     <td>
