@@ -3,11 +3,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema Oppdrag2
--- -----------------------------------------------------
-
 -- -----------------------------------------------------
 -- Schema Oppdrag2
 -- -----------------------------------------------------
@@ -43,15 +38,13 @@ CREATE TABLE IF NOT EXISTS `Oppdrag2`.`problem` (
   `id_problem` INT NOT NULL AUTO_INCREMENT,
   `forfatter_id` INT NULL,
   `kategori_id_kategori` INT NULL,
-  `problem_nummer` INT NOT NULL,
   `problem_title` VARCHAR(255) NOT NULL,
   `problem_text` LONGTEXT NOT NULL,
-  `problem_status` INT NOT NULL,
+  `problem_status` INT NOT NULL DEFAULT 0,
   `fiks_text` LONGTEXT NULL DEFAULT NULL,
   `fiks_dato` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id_problem`),
   INDEX `fk_problem_bruker1_idx` (`forfatter_id` ASC),
-  UNIQUE INDEX `problemcol_UNIQUE` (`problem_nummer` ASC),
   INDEX `fk_problem_kategori1_idx` (`kategori_id_kategori` ASC),
   CONSTRAINT `fk_problem_bruker1`
     FOREIGN KEY (`forfatter_id`)
@@ -64,6 +57,11 @@ CREATE TABLE IF NOT EXISTS `Oppdrag2`.`problem` (
     ON DELETE SET NULL
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 -- -----------------------------------------------------
