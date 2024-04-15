@@ -29,16 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } if (isset($_POST['submitFiks'])){
         $fiks_text = validate($_POST['fiks_text']);
         $problem_id = validate($_POST['problem_id']);
+        $ny_kategori = validate($_POST['ny_kategori']);
+
 
         $checked = 1;
         try {
             require_once "php_requires/dbh_admin.php"; 
-            $query = "UPDATE problem SET problem_status = :problem_status, fiks_text = :fiks_text, fiks_dato = :fiks_dato WHERE id_problem = :id_problem";
+            $query = "UPDATE problem SET problem_status = :problem_status, kategori_id_kategori = :kategori_id_kategori, fiks_text = :fiks_text, fiks_dato = :fiks_dato WHERE id_problem = :id_problem";
             $stmt = $pdo -> prepare($query);
             $stmt -> bindParam(':problem_status', $checked);
             $stmt -> bindParam(':fiks_text', $fiks_text);
             $stmt -> bindParam(':fiks_dato', date('y-m-d'));
             $stmt -> bindParam(':id_problem', $problem_id);
+            $stmt -> bindParam(':kategori_id_kategori', $ny_kategori);
+
     
             $stmt -> execute();
     
@@ -142,6 +146,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 print '<input type="hidden" name="problem_id" value="' . $problemET['id_problem'] . '" />';
                                 print '<label for="fiks_text" class="form-label">Fiks detaljer:</label>';
                                 print '<textarea class="form-control" name="fiks_text" rows="3" value="' . $problemET['fiks_text'] . '"></textarea>';
+                                print '<label for="ny_kategori" class="form-label">Kategori:</label>';
+
+                                    $query = "SELECT * FROM kategori";
+                                    $stmt = $pdo->prepare($query);
+                                    $stmt->execute();
+                                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                print '<select name="ny_kategori" class="form-select">';
+                                    foreach ($result as $row){
+                                        print '<option value="' . $row['id_kategori'] . '">' . $row['kategori'] . '</option>';
+                                    }
+                                print '</select>';
+
                             print '</div>';
                         print' </div>';
                         print '<div class="card-footer d-flex justify-content-between">';

@@ -1,4 +1,4 @@
-adminUser IDENTIFIED BY 'admin123'
+UadminUser IDENTIFIED BY 'admin123'
 ALL PRIVILEGES ON *.*
 
 kundeUser IDENTIFIED BY 'kunde123';

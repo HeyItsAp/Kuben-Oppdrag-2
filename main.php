@@ -57,7 +57,7 @@ if ($_SESSION['clearance'] == 1){
                                     <a href="php_requires/logout_h.php" type="button"
                                         class="btn btn-link ps-0 text-decoration-none"><i class="bi bi-lock-fill"></i>
                                         Logg ut </a>
-                                        <a href="userSettings.php" type="button" class="btn btn-link ps-0 text-decoration-none text-primary"><i class="bi bi-person-fill"></i> Endre brukernavn og passord </a>
+                                        <a href="userSettings.php" type="button" class="btn btn-link ps-0 text-decoration-none"><i class="bi bi-person-fill"></i> Endre brukernavn og passord </a>
 
                                     <?php
                                         if ($_SESSION['clearance'] == 2){
